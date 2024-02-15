@@ -1,0 +1,17 @@
+{
+  "name": "aws-lambda-nodejs-event-bridge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "TechSupportService.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1557.0",
+    "axios": "^1.6.7",
+    "dotenv": "^16.4.4"
+  }
+}

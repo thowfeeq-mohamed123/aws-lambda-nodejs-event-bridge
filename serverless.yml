@@ -1,0 +1,40 @@
+service: aws-lambda-nodejs-event-bridge
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - events:DescribeEventBus
+        - events:PutEvents
+      Resource: arn:aws:events:us-east-1:*:*
+
+functions:
+  customerSupport:
+    handler: handler.customerSupport
+    events:
+      - http:
+          path: aws-lambda-nodejs-event-bridge
+          method: post
+          cors: true
+      - eventBridge:
+          eventBus: FoodDeliveryAppEventBus
+          pattern:
+            source:
+              - customer
+  techSupportService:
+    handler: TechSupportService.handler
+    events:
+      - http:
+          path: aws-lambda-nodejs-event-bridge
+          method: post
+          cors: true
+      - eventBridge:
+          eventBus: FoodDeliveryAppEventBus
+          pattern:
+            source:
+              - tech
