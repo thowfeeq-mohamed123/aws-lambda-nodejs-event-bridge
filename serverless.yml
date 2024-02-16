@@ -18,19 +18,15 @@ functions:
     handler: handler.customerSupport
     events:
       - http:
-          path: aws-lambda-nodejs-event-bridge
+          path: eventHandler
           method: post
           cors: true
-      - eventBridge:
-          eventBus: FoodDeliveryAppEventBus
-          pattern:
-            source:
-              - customer
+
   techSupportService:
-    handler: TechSupportService.handler
+    handler: TechSupportService.techSupportService
     events:
       - http:
-          path: aws-lambda-nodejs-event-bridge
+          path: techSupport
           method: post
           cors: true
       - eventBridge:
@@ -38,3 +34,16 @@ functions:
           pattern:
             source:
               - tech
+
+  customerSupportService:
+    handler: CustomerSupportService.customerSupportService
+    events:
+      - http:
+          path: customerSupport
+          method: post
+          cors: true
+      - eventBridge:
+          eventBus: FoodDeliveryAppEventBus
+          pattern:
+            source:
+              - customer

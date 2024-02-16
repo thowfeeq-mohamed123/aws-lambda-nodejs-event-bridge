@@ -11,7 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1557.0",
-    "axios": "^1.6.7",
     "dotenv": "^16.4.4"
+  },
+  "devDependencies": {
+    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-offline": "^13.3.3"
   }
 }

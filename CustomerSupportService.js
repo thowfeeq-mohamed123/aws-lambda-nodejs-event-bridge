@@ -1,11 +1,11 @@
 "use strict";
 
-exports.techSupportService = async () => {
+exports.customerSupportService = async () => {
   try {
     return {
       statusCode: 200,
       body: JSON.stringify({
-        message: "Successfully called tech support service",
+        message: "Successfully called customer support service",
       }),
     };
   } catch (error) {

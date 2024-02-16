@@ -1,13 +1,10 @@
 "use strict";
 const AWS = require("aws-sdk");
 const config = require("./config");
+const EventBridge = new AWS.EventBridge();
 
-const EventBridge = new AWS.EventBridge(config);
-
-module.exports.customerSupport = async (event, context, callback) => {
+module.exports.customerSupport = async (event) => {
   console.log("New customer support request received.");
-  console.log(event.body);
-
   const params = {
     Entries: [
       {
@@ -20,24 +17,18 @@ module.exports.customerSupport = async (event, context, callback) => {
     ],
   };
   console.log("Sending event to event bus...");
-  EventBridge.putEvents(params, (err, data) => {
-    let response = null;
-    if (err) {
-      response = {
-        statusCode: 500,
-        body: JSON.stringify({
-          message: `Unable to send event to event bus. ${err}`,
-        }),
-      };
-    } else {
-      const msg = "New event sent to event bus.";
-      response = {
-        statusCode: 200,
-        body: JSON.stringify({
-          message: msg,
-        }),
-      };
-    }
-    callback(null, response);
-  });
+  try {
+    const data = await EventBridge.putEvents(params).promise();
+    console.log(`Event published: ${JSON.stringify(event.body)}`);
+    return {
+      statusCode: 200,
+      body: JSON.stringify(data),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: err }),
+    };
+  }
 };
